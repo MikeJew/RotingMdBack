@@ -55,21 +55,20 @@ public class TicketService : ITicketService
     /// 3. Атомарно: уменьшить AvailableSeats на 1 и создать новый Ticket.
     ///    Оба действия в одном SaveChangesAsync() — либо оба, либо никакого.
     /// </remarks>
-    public async Task<TicketDto> PurchaseAsync(CreateTicketDto dto)
+    public async Task<TicketDto> BuyTicketAsync(CreateTicketDto dto)
     {
-        // Проверяем существование пользователя
-        var user = await _context.Users.FindAsync(dto.UserId)
-            ?? throw new KeyNotFoundException($"Пользователь с Id={dto.UserId} не найден.");
-
         // Находим маршрут (с отслеживанием, чтобы изменить AvailableSeats)
         var route = await _context.Routes.FindAsync(dto.RouteId)
             ?? throw new KeyNotFoundException($"Маршрут с Id={dto.RouteId} не найден.");
 
+        // Проверяем существование пользователя
+        var user = await _context.Users.FindAsync(dto.UserId)
+            ?? throw new KeyNotFoundException($"Пользователь с Id={dto.UserId} не найден.");
+
         // Бизнес-проверка — есть ли свободные места
         if (route.AvailableSeats <= 0)
         {
-            throw new InvalidOperationException(
-                $"На маршрут '{route.Name}' нет свободных мест.");
+            throw new InvalidOperationException("Нет свободных мест");
         }
 
         // Списываем одно место и создаём билет

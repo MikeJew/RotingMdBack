@@ -19,5 +19,5 @@ public interface ITicketService
     /// Бизнес-логика: проверяет наличие мест и уменьшает AvailableSeats.
     /// Выбрасывает InvalidOperationException, если мест нет.
     /// </summary>
-    Task<TicketDto> PurchaseAsync(CreateTicketDto dto);
+    Task<TicketDto> BuyTicketAsync(CreateTicketDto dto);
 }

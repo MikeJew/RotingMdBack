@@ -54,7 +54,7 @@ public class TicketsController : ControllerBase
     {
         try
         {
-            var ticket = await _ticketService.PurchaseAsync(dto);
+            var ticket = await _ticketService.BuyTicketAsync(dto);
             return StatusCode(StatusCodes.Status201Created, ticket);
         }
         catch (KeyNotFoundException ex)
