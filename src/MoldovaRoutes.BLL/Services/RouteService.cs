@@ -49,29 +49,52 @@ public class RouteService : IRouteService
         return route is null ? null : _mapper.Map<RouteDto>(route);
     }
 
-    // ===================== SEARCH (заглушка) =====================
+    // ===================== SEARCH & FILTER =====================
 
     /// <inheritdoc/>
     /// <remarks>
-    /// TODO: Шаг 3.3 — реализовать поиск по подстроке в названии маршрута.
-    /// Пока метод выбрасывает NotImplementedException.
+    /// Шаг 3.3: Поиск маршрутов по подстроке.
+    /// Ищет регистронезависимо в полях: Name, DepartureCity, ArrivalCity.
+    /// Если query пустой или null — возвращает все маршруты.
+    /// Если совпадений нет — возвращает пустой список (не null).
     /// </remarks>
-    public Task<IEnumerable<RouteDto>> SearchAsync(string query)
+    public async Task<IEnumerable<RouteDto>> SearchAsync(string query)
     {
-        // Будет реализовано на следующем шаге (Шаг 3.3)
-        throw new NotImplementedException(
-            "Метод SearchAsync ещё не реализован. См. Шаг 3.3.");
+        // Если запрос пустой — возвращаем все маршруты
+        if (string.IsNullOrWhiteSpace(query))
+            return await GetAllAsync();
+
+        // Приводим запрос к нижнему регистру для регистронезависимого сравнения
+        var lowerQuery = query.ToLower();
+
+        // LINQ: фильтруем маршруты, где подстрока содержится
+        // в названии, городе отправления или городе прибытия
+        var routes = await _context.Routes
+            .AsNoTracking()
+            .Where(r =>
+                r.Name.ToLower().Contains(lowerQuery) ||
+                r.DepartureCity.ToLower().Contains(lowerQuery) ||
+                r.ArrivalCity.ToLower().Contains(lowerQuery))
+            .ToListAsync();
+
+        // AutoMapper: List<Route> → IEnumerable<RouteDto>
+        // Если routes пуст — вернётся пустой список (не null)
+        return _mapper.Map<IEnumerable<RouteDto>>(routes);
     }
 
     /// <inheritdoc/>
     /// <remarks>
-    /// TODO: Шаг 3.3 — реализовать фильтрацию по типу транспорта.
+    /// Шаг 3.3: Фильтрация маршрутов по типу транспорта (bus, train, minibus).
+    /// Сравнение регистронезависимое.
     /// </remarks>
-    public Task<IEnumerable<RouteDto>> FilterByTypeAsync(string transportType)
+    public async Task<IEnumerable<RouteDto>> FilterByTypeAsync(string transportType)
     {
-        // Будет реализовано на следующем шаге (Шаг 3.3)
-        throw new NotImplementedException(
-            "Метод FilterByTypeAsync ещё не реализован. См. Шаг 3.3.");
+        var routes = await _context.Routes
+            .AsNoTracking()
+            .Where(r => r.TransportType.ToLower() == transportType.ToLower())
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<RouteDto>>(routes);
     }
 
     // ===================== CREATE =====================
