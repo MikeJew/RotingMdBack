@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 // AddScoped = один экземпляр на HTTP-запрос (оптимально для сервисов с DbContext)
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // 4. Контроллеры
 builder.Services.AddControllers();
