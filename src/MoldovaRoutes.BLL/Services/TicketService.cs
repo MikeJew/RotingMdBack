@@ -57,22 +57,22 @@ public class TicketService : ITicketService
     /// </remarks>
     public async Task<TicketDto> PurchaseAsync(CreateTicketDto dto)
     {
-        // ── Шаг 1: Проверяем существование пользователя ──────────────────────
+        // Шаг 1: Проверяем существование пользователя
         var user = await _context.Users.FindAsync(dto.UserId)
             ?? throw new KeyNotFoundException($"Пользователь с Id={dto.UserId} не найден.");
 
-        // ── Шаг 2: Находим маршрут (с отслеживанием, чтобы изменить AvailableSeats) ─
+        // Шаг 2: Находим маршрут (с отслеживанием, чтобы изменить AvailableSeats)
         var route = await _context.Routes.FindAsync(dto.RouteId)
             ?? throw new KeyNotFoundException($"Маршрут с Id={dto.RouteId} не найден.");
 
-        // ── Шаг 3: Бизнес-проверка — есть ли свободные места ─────────────────
+        // Шаг 3: Бизнес-проверка — есть ли свободные места
         if (route.AvailableSeats <= 0)
         {
             throw new InvalidOperationException(
                 $"На маршрут '{route.Name}' нет свободных мест.");
         }
 
-        // ── Шаг 4: Списываем одно место и создаём билет ───────────────────────
+        // Шаг 4: Списываем одно место и создаём билет
         route.AvailableSeats--; // Уменьшаем счётчик мест
 
         var ticket = new Ticket
@@ -85,7 +85,7 @@ public class TicketService : ITicketService
         _context.Tickets.Add(ticket);
         await _context.SaveChangesAsync(); // Атомарная операция: и место, и билет сразу
 
-        // ── Шаг 5: Загружаем навигационные свойства для маппинга в TicketDto ───
+        // Шаг 5: Загружаем навигационные свойства для маппинга в TicketDto
         await _context.Entry(ticket).Reference(t => t.User).LoadAsync();
         await _context.Entry(ticket).Reference(t => t.Route).LoadAsync();
 

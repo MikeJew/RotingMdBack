@@ -34,10 +34,10 @@ public class AdminModAttribute : ActionFilterAttribute
     /// </summary>
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        // ── Шаг 1: Читаем роль из Claims (JWT-токен, если настроена авторизация) ──
+        // Шаг 1: Читаем роль из Claims (JWT-токен, если настроена авторизация)
         var claimRole = context.HttpContext.User.FindFirst("role")?.Value;
 
-        // ── Шаг 2: Если Claims нет (авторизация не настроена), читаем из заголовка ──
+        // Шаг 2: Если Claims нет (авторизация не настроена), читаем из заголовка
         // Это fallback для тестирования через Swagger/Postman без полного Auth.
         // В продакшене эту строку нужно удалить.
         if (string.IsNullOrEmpty(claimRole))
@@ -45,7 +45,7 @@ public class AdminModAttribute : ActionFilterAttribute
             claimRole = context.HttpContext.Request.Headers["X-User-Role"].FirstOrDefault();
         }
 
-        // ── Шаг 3: Проверяем, является ли пользователь администратором ──────────
+        // Шаг 3: Проверяем, является ли пользователь администратором
         if (!string.Equals(claimRole, "Admin", StringComparison.OrdinalIgnoreCase))
         {
             // Немедленно прерываем выполнение и возвращаем 403 Forbidden.
@@ -63,7 +63,7 @@ public class AdminModAttribute : ActionFilterAttribute
             return; // Прерываем выполнение фильтра
         }
 
-        // ── Шаг 4: Если всё ок — передаём управление следующему в цепочке ──────
+        // Шаг 4: Если всё ок — передаём управление следующему в цепочке
         // base.OnActionExecuting() вызывает следующий фильтр или сам метод контроллера.
         base.OnActionExecuting(context);
     }

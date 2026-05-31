@@ -14,7 +14,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // ─── Route Mappings ──────────────────────────────────────────────────
+        // Route Mappings
         
         // Entity -> DTO (для GET-запросов, возврат клиенту)
         CreateMap<Route, RouteDto>();
@@ -30,7 +30,7 @@ public class MappingProfile : Profile
                 (src, dest, srcMember) => srcMember != null
             ));
 
-        // ─── User Mappings ───────────────────────────────────────────────────
+        // User Mappings
 
         // Entity -> DTO (БЕЗ PasswordHash — он никогда не уходит клиенту)
         CreateMap<User, UserDto>();
@@ -41,7 +41,7 @@ public class MappingProfile : Profile
         CreateMap<CreateUserDto, User>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
-        // ─── Ticket Mappings ─────────────────────────────────────────────────
+        // Ticket Mappings
 
         // Entity -> DTO (с вложенными User и Route DTO — AutoMapper сделает это рекурсивно)
         CreateMap<Ticket, TicketDto>();

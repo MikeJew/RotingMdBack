@@ -25,7 +25,7 @@ public class RoutesController : ControllerBase
         _routeService = routeService;
     }
 
-    // ─── GET: доступны всем ─────────────────────────────────────────────────
+    // GET: доступны всем
 
     /// <summary>Получить все маршруты</summary>
     [HttpGet]
@@ -71,7 +71,7 @@ public class RoutesController : ControllerBase
         return Ok(routes);
     }
 
-    // ─── POST, PUT, DELETE: только Администратор ────────────────────────────
+    // POST, PUT, DELETE: только Администратор
 
     /// <summary>
     /// Создать новый маршрут.

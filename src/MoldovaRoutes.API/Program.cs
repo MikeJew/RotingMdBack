@@ -6,11 +6,9 @@ using MoldovaRoutes.DAL.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ════════════════════════════════════════════════════════════════════════════
 // РЕГИСТРАЦИЯ СЕРВИСОВ (до builder.Build())
-// ════════════════════════════════════════════════════════════════════════════
 
-// ── 1. База данных: EF Core + MSSQL ─────────────────────────────────────────
+// 1. База данных: EF Core + MSSQL
 // Строка подключения берётся из appsettings.json (секция ConnectionStrings.Default)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
@@ -20,19 +18,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     )
 );
 
-// ── 2. AutoMapper ────────────────────────────────────────────────────────────
+// 2. AutoMapper
 // Сканирует сборку и находит все классы, унаследованные от Profile
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
-// ── 3. Dependency Injection: регистрация сервисов BLL ───────────────────────
+// 3. Dependency Injection: регистрация сервисов BLL
 // AddScoped = один экземпляр на HTTP-запрос (оптимально для сервисов с DbContext)
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 
-// ── 4. Контроллеры ───────────────────────────────────────────────────────────
+// 4. Контроллеры
 builder.Services.AddControllers();
 
-// ── 5. Swagger / OpenAPI (для тестирования API без Postman) ─────────────────
+// 5. Swagger / OpenAPI (для тестирования API без Postman)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -45,7 +43,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// ── 6. CORS: разрешаем запросы с фронтенда (React/Vite на порту 5173) ───────
+// 6. CORS: разрешаем запросы с фронтенда (React/Vite на порту 5173)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
@@ -56,9 +54,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ════════════════════════════════════════════════════════════════════════════
 // КОНВЕЙЕР ЗАПРОСОВ (Pipeline) — порядок важен!
-// ════════════════════════════════════════════════════════════════════════════
 
 var app = builder.Build();
 
@@ -79,7 +75,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// ── Автоматическое применение миграций при запуске ──────────────────────────
+// Автоматическое применение миграций при запуске
 // Удобно для разработки. В продакшене лучше запускать миграции вручную.
 using (var scope = app.Services.CreateScope())
 {
