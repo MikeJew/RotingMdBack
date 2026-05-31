@@ -23,7 +23,6 @@ public class RouteService : IRouteService
         _mapper = mapper;
     }
 
-    // ===================== READ =====================
 
     /// <inheritdoc/>
     public async Task<IEnumerable<RouteDto>> GetAllAsync()
@@ -49,7 +48,6 @@ public class RouteService : IRouteService
         return route is null ? null : _mapper.Map<RouteDto>(route);
     }
 
-    // ===================== SEARCH & FILTER =====================
 
     /// <inheritdoc/>
     /// <remarks>
@@ -97,7 +95,6 @@ public class RouteService : IRouteService
         return _mapper.Map<IEnumerable<RouteDto>>(routes);
     }
 
-    // ===================== CREATE =====================
 
     /// <inheritdoc/>
     public async Task<RouteDto> CreateAsync(CreateRouteDto dto)
@@ -112,7 +109,6 @@ public class RouteService : IRouteService
         return _mapper.Map<RouteDto>(route);
     }
 
-    // ===================== UPDATE =====================
 
     /// <inheritdoc/>
     public async Task<RouteDto?> UpdateAsync(int id, UpdateRouteDto dto)
@@ -132,7 +128,6 @@ public class RouteService : IRouteService
         return _mapper.Map<RouteDto>(route);
     }
 
-    // ===================== DELETE =====================
 
     /// <inheritdoc/>
     public async Task<bool> DeleteAsync(int id)

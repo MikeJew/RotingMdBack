@@ -29,7 +29,6 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // --- Конфигурация User ---
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(u => u.Id);
@@ -39,7 +38,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(u => u.Role).IsRequired().HasDefaultValue("Client");
         });
 
-        // --- Конфигурация Route ---
         modelBuilder.Entity<Route>(entity =>
         {
             entity.HasKey(r => r.Id);
@@ -48,7 +46,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(r => r.AvailableSeats).HasDefaultValue(0);
         });
 
-        // --- Конфигурация Ticket и его связи ---
         modelBuilder.Entity<Ticket>(entity =>
         {
             entity.HasKey(t => t.Id);
