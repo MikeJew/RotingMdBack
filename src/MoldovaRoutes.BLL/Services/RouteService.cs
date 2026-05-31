@@ -9,7 +9,7 @@ namespace MoldovaRoutes.BLL.Services;
 
 /// <summary>
 /// Реализация сервиса для работы с маршрутами.
-/// Шаг 3.2: Базовый CRUD (Create, Read, Update, Delete).
+/// Базовый CRUD (Create, Read, Update, Delete).
 /// Получает ApplicationDbContext и IMapper через Dependency Injection (DI).
 /// </summary>
 public class RouteService : IRouteService
@@ -51,7 +51,7 @@ public class RouteService : IRouteService
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Шаг 3.3: Поиск маршрутов по подстроке.
+    /// Поиск маршрутов по подстроке.
     /// Ищет регистронезависимо в полях: Name, DepartureCity, ArrivalCity.
     /// Если query пустой или null — возвращает все маршруты.
     /// Если совпадений нет — возвращает пустой список (не null).
@@ -82,7 +82,7 @@ public class RouteService : IRouteService
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Шаг 3.3: Фильтрация маршрутов по типу транспорта (bus, train, minibus).
+    /// Фильтрация маршрутов по типу транспорта (bus, train, minibus).
     /// Сравнение регистронезависимое.
     /// </remarks>
     public async Task<IEnumerable<RouteDto>> FilterByTypeAsync(string transportType)
