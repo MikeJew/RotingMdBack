@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MoldovaRoutes.API</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Ссылки на другие проекты в солюшене -->
+    <ProjectReference Include="../MoldovaRoutes.BLL/MoldovaRoutes.BLL.csproj" />
+    <ProjectReference Include="../MoldovaRoutes.DAL/MoldovaRoutes.DAL.csproj" />
+    <ProjectReference Include="../MoldovaRoutes.Common/MoldovaRoutes.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- NuGet пакеты: EF Core для MSSQL, инструменты миграций и Swagger -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+</Project>

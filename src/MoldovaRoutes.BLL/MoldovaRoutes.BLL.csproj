@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MoldovaRoutes.BLL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MoldovaRoutes.DAL/MoldovaRoutes.DAL.csproj" />
+    <ProjectReference Include="../MoldovaRoutes.Common/MoldovaRoutes.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- AutoMapper для маппинга DTO <-> Entity в сервисах -->
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>
